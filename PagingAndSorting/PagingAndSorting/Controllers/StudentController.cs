@@ -54,8 +54,58 @@ namespace PagingAndSorting.Controllers
                         studentList = db.Set<Student>().OrderBy(s => s.Sex).ToPagedList(pageIndex, pageSize);
                     }
                     break;
+
+                case "Email":
+                    if (sortBy.Equals(currentSort))
+                    {
+                        studentList = db.Set<Student>().OrderByDescending(s => s.Email).ToPagedList(pageIndex, pageSize);
+                        ViewBag.CurrentSort = null;
+                    }
+                    else
+                    {
+                        studentList = db.Set<Student>().OrderBy(s => s.Email).ToPagedList(pageIndex, pageSize);
+                    }
+                    break;
+
+                case "Age":
+                    if (sortBy.Equals(currentSort))
+                    {
+                        studentList = db.Set<Student>().OrderByDescending(s => s.Age).ToPagedList(pageIndex, pageSize);
+                        ViewBag.CurrentSort = null;
+                    }
+                    else
+                    {
+                        studentList = db.Set<Student>().OrderBy(s => s.Age).ToPagedList(pageIndex, pageSize);
+                    }
+                    break;
+
+                default:
+                    if (sortBy.Equals(currentSort))
+                    {
+                        studentList = db.Set<Student>().OrderByDescending(s => s.Name).ToPagedList(pageIndex, pageSize);
+                        ViewBag.CurrentSort = null;
+                    }
+                    else
+                    {
+                        studentList = db.Set<Student>().OrderBy(s => s.Name).ToPagedList(pageIndex, pageSize);
+                    }
+                    break;
             }
+            return View(studentList);
+        }
+
+        public ActionResult AddStudent()
+        {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddStudent(Student model)
+        {
+            db.Set<Student>().Add(model);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
