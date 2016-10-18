@@ -22,7 +22,7 @@ namespace PagingAndSorting.Controllers
         public ActionResult Index(string sortBy,string currentSort, int?page)
         {
             int pageIndex = 1;
-            int pageSize = 5;
+            int pageSize = 10;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             ViewBag.CurrentSort = sortBy;
 
